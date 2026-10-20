@@ -127,7 +127,7 @@ const GAS_API_URL = "https://script.google.com/macros/s/你的部署ID/exec";
 git push origin main
 ```
 
-在 GitHub 儲存庫的 **Settings → Pages**，Source 選 `main` 分支的根目錄，儲存後即可取得網址（形如 `https://<帳號>.github.io/class-score/`）。
+在 GitHub 儲存庫的 **Settings → Pages**，Source 選 `main` 分支的根目錄，儲存後即可取得網址（形如 `https://<帳號>.github.io/teach-class-score/`）。
 
 在教室大螢幕的瀏覽器打開該網址並加入書籤，建議用全螢幕模式（F11）。
 

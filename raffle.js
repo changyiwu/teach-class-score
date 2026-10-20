@@ -1,6 +1,6 @@
 /**
  * 幸運抽籤
- * 移植自 class-tools-2 的「幸運大抽籤」：轉盤／拉霸／翻牌三種模式、一次抽 N 位、不重複抽。
+ * 移植自 teach-class-tools 的「幸運大抽籤」：轉盤／拉霸／翻牌三種模式、一次抽 N 位、不重複抽。
  * 名單改接目前開啟的班級，抽出後可直接替中籤座號加分——走 app.js 的 changeScore，
  * 與學生卡片上的 ＋ 是同一條路（樂觀更新、寫入 _Log、失敗自動復原）。
  *
@@ -9,7 +9,7 @@
  * 姓名一律在登入後由 state.students 即時組字。登出只清記憶體快取與畫面，不刪 localStorage。
  */
 
-// 多位中籤時，指針每掃一格的動畫與停留時間（沿用 class-tools-2 的節奏）
+// 多位中籤時，指針每掃一格的動畫與停留時間（沿用 teach-class-tools 的節奏）
 const RAFFLE_SWEEP_STEP_MS = 320;
 const RAFFLE_SWEEP_HOLD_MS = 420;
 const RAFFLE_SLOT_SPIN_MS = 4000;

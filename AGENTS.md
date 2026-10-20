@@ -1,11 +1,11 @@
-# 課堂表現登記系統 (class-score)（專案藍圖）
+# 課堂表現登記系統 (teach-class-score)（專案藍圖）
 
 > 本檔為跨 Agent 通用的專案藍圖（AGENTS.md 開放標準）。任何 Agent 的每個 session 都應先讀本檔＋`handoff.md`。
 
 ## 專案簡介
 提供課堂大螢幕觸控加減分介面，並支援手機安全掃碼登入（防學生偷看密碼）及密碼直接登入。後端採用 Google Apps Script API 搭配 Google 試算表作為資料庫，前端部署於 GitHub Pages。
 
-2026-09-11 併入原 `exam-review`（考卷檢討）專案：登入後可從頁首「考卷檢討」開啟 Drive 考卷資料夾的檔案清單，兩者共用同一套登入。`exam-review` 已退場（舊 GAS 部署停用、後台資料夾移入垃圾桶、`teaching-web` 側邊欄卡片移除、GitHub repo 刪除）。
+2026-09-11 併入原 `exam-review`（考卷檢討）專案：登入後可從頁首「考卷檢討」開啟 Drive 考卷資料夾的檔案清單，兩者共用同一套登入。`exam-review` 已退場（舊 GAS 部署停用、後台資料夾移入垃圾桶、`teach-math-web` 側邊欄卡片移除、GitHub repo 刪除）。
 
 ## 關鍵時程
 - 專案開發與部署：已完成並發布上線
@@ -15,7 +15,7 @@
 - 2026-08-29：資訊圖表改為登入後才看得到——圖檔壓成 WebP 移出公開 repo、改放 Drive 私有資料夾，新增 `get_infographic`（GAS `@9`），前端刪掉獨立檢視頁改用 modal；公開 repo 的 git 歷史已改寫、移除三張 png
 - 2026-09-11：併入 `exam-review` 考卷檢討（新增 `list_exam_files`／`get_exam_file_url`）；session 改為只存記憶體；頁首四張圖表收進「課堂資訊」下拉選單（**目前部署版本 GAS `@11`**）
 - 2026-09-16：學生卡片最小寬度 `160px → 140px`（純 CSS，GAS 維持 `@11`）；教室實機確認考卷檢討、加分動畫與音效、第四張圖頁尾文案、幸運抽籤、前三張資訊圖表皆通過，**真人待驗項全數清空**；`PC-YI-FY` 上的兩份備份 bundle（含個資那份）永久刪除完畢
-- 2026-09-15：新增「幸運抽籤」（移植自 `class-tools-2`，純前端 `raffle.js`，GAS 維持 `@11`）；頁首分頁列寬度改為 `clamp(160px, calc(100vw - 920px), 40vw)`；抽籤名單與紀錄改存 localStorage（只存座號）；修正手機寬度下背景光暈撐寬整頁
+- 2026-09-15：新增「幸運抽籤」（移植自 `teach-class-tools`，純前端 `raffle.js`，GAS 維持 `@11`）；頁首分頁列寬度改為 `clamp(160px, calc(100vw - 920px), 40vw)`；抽籤名單與紀錄改存 localStorage（只存座號）；修正手機寬度下背景光暈撐寬整頁
 
 ## 目標與路線圖
 - [x] 後端 Google Apps Script API 設計與 clasp 部署
@@ -49,7 +49,7 @@
 - [x] 併入 `exam-review` 考卷檢討，共用登入（2026-09-11）
 - [x] 頁首四顆資訊圖表按鈕收成一顆「課堂資訊」下拉選單，讓出位置給「考卷檢討」（2026-09-11）
 - [x] 考卷檢討**真人登入實測**通過（2026-09-11，使用者登入後確認）
-- [x] `exam-review` 退場（2026-09-11）：舊 GAS 部署停用（舊 `/exec` 已連不上）、`考卷檢討-後台` 資料夾連同設定試算表與 GAS 專案移入 Drive 垃圾桶、`teaching-web` 側邊欄的考卷檢討卡片移除、GitHub repo 由使用者刪除（舊網址回 404）
+- [x] `exam-review` 退場（2026-09-11）：舊 GAS 部署停用（舊 `/exec` 已連不上）、`考卷檢討-後台` 資料夾連同設定試算表與 GAS 專案移入 Drive 垃圾桶、`teach-math-web` 側邊欄的考卷檢討卡片移除、GitHub repo 由使用者刪除（舊網址回 404）
 - [x] 幸運抽籤（2026-09-15）：頁首一鍵開 modal，名單接目前班級，轉盤／拉霸／翻牌、一次抽 N 位、不重複抽，中籤後可直接加分
 - [x] 抽籤名單與紀錄改存 `localStorage`，只存座號與時間戳（2026-09-15）
 - [x] 幸運抽籤**教室實機實測**通過（2026-09-16）
@@ -63,7 +63,7 @@
 
 ## 資料夾結構
 ```
-class-score/
+teach-class-score/
 ├── .clasp.json
 ├── .git/
 ├── .gitignore
@@ -92,8 +92,8 @@ class-score/
 | 層級 | 平台 | 位置 | 讀取時機 |
 |------|------|------|---------|
 | L1 | 本地（GDrive） | `AGENTS.md`＋`handoff.md` | 每個 session |
-| L2 | GitHub | [changyiwu/class-score](https://github.com/changyiwu/class-score) | 指定時 |
-| L3 | Obsidian | `class-score/專案工作流程.md` | 有需要時 |
+| L2 | GitHub | [changyiwu/teach-class-score](https://github.com/changyiwu/teach-class-score) | 指定時 |
+| L3 | Obsidian | `teach-class-score/專案工作流程.md` | 有需要時 |
 
 ## 三個檔案的職責（依「時效性」分家，不是依「詳細程度」）
 
@@ -123,7 +123,7 @@ class-score/
 
 ### 雲端資產位置
 
-- **試算表 `ClassScoreDB`（`1y4OiKj6JoT4yAnSph3P5W3hFOSHAUyoivyMUmHLsm-4`）與 GAS 專案 `ClassScoreBackend` 都放在雲端硬碟的 `agents/class-score/` 資料夾內**，與程式碼同一處
+- **試算表 `ClassScoreDB`（`1y4OiKj6JoT4yAnSph3P5W3hFOSHAUyoivyMUmHLsm-4`）與 GAS 專案 `ClassScoreBackend` 都放在雲端硬碟的 `agents/teach-class-score/` 資料夾內**，與程式碼同一處
 - **搬動這兩個檔案不影響運作**：clasp 認 `scriptId`、後端取試算表走 `openById`（找不到才用檔名全 Drive 搜尋），都與資料夾位置無關，搬完不必 redeploy
 - **GAS 專案是獨立式的**（不是綁在試算表裡），所以它與試算表是兩個各自獨立的 Drive 檔案，搬動時要分別處理
 
@@ -168,7 +168,7 @@ class-score/
 - **spec 的 `output.final_path` 要寫真實路徑**：定稿 PNG 實際放在 `source/final-png/`，前三張 spec 卻寫成根目錄檔名，因此 `verify_output.py` 對那三張會報 `E_OUTPUT_MISSING`。新的 spec 一律寫 `source/final-png/<key>.png`
 - **要求鮮豔配色時，必須把範圍限縮在「圖示本體」並聲明卡片底板維持奶白**：只說「飽和色」會讓模型把標題底板整塊染成深藍，破壞 `paper_warm` 的暖紙風格
 - **標題的 title 與 note 兩行要明講「同留在底板上」**：否則模型會把其中一行搬去當連接線上的標籤，順手把原本該在那個位置的字串吃掉（曾讓「每階段」整個消失）
-- **Claude Code 沒有內建生圖，走 `agent-draw` 技能的 `draw.py`**；提示詞很長且含引號，要用小腳本讀檔案再送進去，不要從 shell 展開。中文要零錯，`--quality` 用 `high`
+- **Claude Code 沒有內建生圖，走 `draw` 技能的 `draw.py`**；提示詞很長且含引號，要用小腳本讀檔案再送進去，不要從 shell 展開。中文要零錯，`--quality` 用 `high`
 - **整個 `infographics/` 目錄都不進版控**（已 gitignore）。裡面的 spec 與提示詞含教師個人資料（學歷、兵役、服務單位），這個 repo 是公開的，放進來就等於公開。目錄本體靠雲端硬碟同步保存，不靠 git。**代價是它沒有版本保護**：spec、提示詞、原始 png 誤刪或誤改都無法用 git 復原，動它之前先想清楚
 - **供圖的是 `infographics/private/`**，經雲端硬碟桌面同步成為 Drive 私有資料夾（權限只有擁有者）。前端要圖一律走 `get_infographic`，後端驗過 session 才回 base64
 - **圖片的 alt 文字放在 `infographics/private/meta.json`，隨圖從 Drive 取回，絕不可寫進前端或 repo**：教師簡歷那段 alt 本身就是個資。`app.js` 的 `INFOGRAPHICS` 只准放標題
@@ -197,14 +197,14 @@ class-score/
 - **密碼、登入時長、考卷資料夾 ID 一律以 `ClassScoreDB` 的 `_Settings` 為準**。`exam-review` 原本的 `考卷檢討-後台` 資料夾與 `考卷檢討設定` 試算表已於退場時移入垃圾桶，不要去找它
 - **考卷資料夾本身仍在使用，不可刪**：`exam-review` 退場只清掉它的後台，資料夾與裡面的 PPT／PDF 現在由本系統供應
 
-### 幸運抽籤（`raffle.js`，移植自 `class-tools-2`）
+### 幸運抽籤（`raffle.js`，移植自 `teach-class-tools`）
 
 - **名單一律取 `state.students`（目前開啟的班級）**，不另打 API。開視窗前必須確認 `state.studentsClass === state.currentClass`：切換分頁到資料回來之前兩者不一致，這時開抽籤會抽到上一班的名單
 - **加分一律走 `changeScore`**（它回傳 `Promise<boolean>`，後端確認才是 `true`），不要在 `raffle.js` 另寫 `update_score` 呼叫——樂觀更新、`_Log`、失敗復原、加分動畫與音效都在那條路上。中籤畫面的「已加 N」靠這個 Promise 在失敗時扣回
 - **抽籤名單、紀錄與設定存在 `localStorage`（key `class_score_raffle_v1`），但只存座號與時間戳，絕不存姓名**（2026-09-15 應使用者要求，讓紀錄跨重新整理與登出保留）：教室大螢幕任何人都走得到，姓名一律在登入後由 `state.students` 即時組字。存「已抽出的座號」而非剩餘名單，試算表增刪座號後自動同步。每次開視窗都重讀（`loadRaffleStore`），讀不到或壞掉就當作沒紀錄
 - **登出時 `clearRaffleState` 只清記憶體快取與畫面**（含 canvas 上畫的姓名），**不刪 `localStorage`**。要讓紀錄跟 session 一起消失，得另外改這裡
 - **`raffle.byClass` 必須是 `Object.create(null)`**：班級名稱可以叫 `constructor`，普通物件會直接取到原型上的函式，讓那一班的抽籤壞掉
-- **「一次抽 N 位」N 位都必須是動畫抽出來的**（沿用 `class-tools-2` 的規則）：轉盤停下後指針逐格往前掃、拉霸依序停在每位中籤者、翻牌要翻滿 N 張。不要退回「抽一位再隨機補齊」
+- **「一次抽 N 位」N 位都必須是動畫抽出來的**（沿用 `teach-class-tools` 的規則）：轉盤停下後指針逐格往前掃、拉霸依序停在每位中籤者、翻牌要翻滿 N 張。不要退回「抽一位再隨機補齊」
 - **抽籤裡的計時器與動畫幀一律走 `raffleLater`／`raffleFrame`**，不要直接 `setTimeout`／`requestAnimationFrame`：關閉視窗（含 Esc、點背景、登出）時 `abortRaffle` 以 `raffle.epoch` 作廢所有排隊中的回呼，直接呼叫的會在視窗關掉後繼續改畫面
 - 中籤畫面開著時 `raffle.isDrawing` 維持 `true`（鎖住開始、重置、模式、人數），按「完成」才解鎖
 - **`RAFFLE_SLOT_ITEM_PX` 必須與 `.raffle-slot`／`.raffle-slot-item` 的 CSS 高度一致**，否則拉霸停下時會停在兩格之間

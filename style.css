@@ -39,7 +39,7 @@
 body {
     font-family: var(--font-body);
     background: radial-gradient(circle at 10% 20%, rgba(15, 23, 42, 1) 0%, rgba(20, 15, 50, 1) 50%, rgba(10, 8, 28, 1) 100%);
-    background-image: linear-gradient(rgba(10, 8, 28, 0.75), rgba(10, 8, 28, 0.75)), url('https://changyiwu.github.io/teaching-web/background.png');
+    background-image: linear-gradient(rgba(10, 8, 28, 0.75), rgba(10, 8, 28, 0.75)), url('https://changyiwu.github.io/teach-math-web/background.png');
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
