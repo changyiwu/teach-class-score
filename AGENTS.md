@@ -219,6 +219,7 @@ teach-class-score/
 - 修改前先確認計畫，優先保留原有資料結構
 - **PowerShell 下的多行 commit 訊息一律用 Write 工具寫進暫存檔，再 `git commit -F <檔案路徑>`**。不要用 `git commit -F - @'...'@`：here-string 會被當成 pathspec 參數而不是 stdin，commit 失敗，接在後面的 `git push` 還會回「Everything up-to-date」，看起來像成功
 - **2026-08-29 之前 clone 的副本一律作廢**（當天改寫 git 歷史並刪除重建 GitHub repo）：在其他電腦接手前先 `git fetch`，確認 `git rev-list HEAD..origin/main` 與 `git rev-list origin/main..HEAD` 沒有分歧；有分歧就重新 `git clone`，**不要在舊 clone 上 pull 或 push**
+- **產出一律放 `output/`**：本專案產生的檔案或資料夾（成品、匯出、報表、生成圖、渲染等）預設放專案根目錄的 `output/`，不另開 `outputs/`、`exports/`、`generated/`、`out/` 之類的資料夾，方便找；`output/` 不進 git。部署工具指定的建置目錄（`dist/`、`build/`）不在此限
 
 ## 技術規範
 
