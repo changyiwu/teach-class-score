@@ -9,10 +9,14 @@
  * 姓名一律在登入後由 state.students 即時組字。登出只清記憶體快取與畫面，不刪 localStorage。
  */
 
-// 多位中籤時，指針每掃一格的動畫與停留時間（沿用 teach-class-tools 的節奏）
-const RAFFLE_SWEEP_STEP_MS = 320;
-const RAFFLE_SWEEP_HOLD_MS = 420;
-const RAFFLE_SLOT_SPIN_MS = 4000;
+// 多位中籤時，指針每掃一格的動畫與停留時間
+const RAFFLE_SWEEP_STEP_MS = 220;
+const RAFFLE_SWEEP_HOLD_MS = 280;
+const RAFFLE_SLOT_SPIN_MS = 2200;
+const RAFFLE_CARDS_REVEAL_MS = 450;  // 翻滿 N 張後到中籤畫面的停頓
+// 轉盤每 1/60 秒的減速比例，約 3 秒停下。以時間而非幀數計算，教室電視掉幀時才不會轉得更久
+const RAFFLE_WHEEL_FRICTION = 0.97;
+const RAFFLE_FRAME_MS = 1000 / 60;
 const RAFFLE_SLOT_ITEM_PX = 120;   // 必須與 .raffle-slot-item 的高度一致
 const RAFFLE_WHEEL_SIZE = 400;     // 轉盤的邏輯尺寸；canvas 以兩倍解析度繪製，大螢幕上字才不糊
 const RAFFLE_HISTORY_LIMIT = 100;   // 每個班級保留的紀錄筆數
@@ -516,14 +520,17 @@ function spinRaffleWheel() {
         return;
     }
 
-    let speed = Math.random() * 0.3 + 0.4; // 每幀轉幾弧度
-    const friction = 0.985;
+    let speed = Math.random() * 0.3 + 0.4; // 每 1/60 秒轉幾弧度
     const sliceAngle = (Math.PI * 2) / raffle.pool.length;
     let lastAngle = raffle.wheelAngle;
+    let lastTime = null;
 
-    function anim() {
-        raffle.wheelAngle += speed;
-        speed *= friction;
+    function anim(timestamp) {
+        // 換算成經過幾個 1/60 秒；上限 6 幀，避免分頁切回來時一次跳一大段
+        const frames = lastTime === null ? 1 : Math.min(Math.max((timestamp - lastTime) / RAFFLE_FRAME_MS, 0), 6);
+        lastTime = timestamp;
+        raffle.wheelAngle += speed * frames;
+        speed *= Math.pow(RAFFLE_WHEEL_FRICTION, frames);
 
         if (Math.floor(raffle.wheelAngle / sliceAngle) !== Math.floor(lastAngle / sliceAngle)) {
             playRaffleSound("tick");
@@ -538,7 +545,7 @@ function spinRaffleWheel() {
         }
     }
 
-    anim();
+    anim(performance.now());
 }
 
 function getRafflePointerSlice() {
@@ -779,7 +786,7 @@ function selectRaffleCard(card, index, seat) {
     setRaffleDrawing(true);
     const picks = raffle.pendingPicks.slice();
     updateRaffleHint();
-    raffleLater(() => finishRaffleDraw(picks), 700);
+    raffleLater(() => finishRaffleDraw(picks), RAFFLE_CARDS_REVEAL_MS);
 }
 
 function shuffleRaffleCards() {

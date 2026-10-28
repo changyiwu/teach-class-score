@@ -210,7 +210,8 @@ teach-class-score/
 - **`RAFFLE_SLOT_ITEM_PX` 必須與 `.raffle-slot`／`.raffle-slot-item` 的 CSS 高度一致**，否則拉霸停下時會停在兩格之間
 - 中籤慶祝沿用 `.praise-star`，**不引入 `canvas-confetti`**：延續關鍵資源不依賴外部請求、也不塞第三方檔案的約定
 - 轉盤 canvas 以兩倍解析度（800×800）繪製、邏輯尺寸 400，大螢幕上字才不糊；長姓名靠 `fillText` 的 `maxWidth` 壓扁，不會蓋到中心圓
-- **本機測抽籤流程**：窗格隱藏時 rAF 與 `setTimeout` 都不跑，可在 Console 暫時把 `raffleLater = fn => fn()`、`raffleFrame = fn => fn(performance.now() + 1e5)`，整段抽籤就會同步跑完；測完記得換回原函式
+- **本機測抽籤流程**：窗格隱藏時 rAF 與 `setTimeout` 都不跑，可在 Console 暫時把 `raffleLater = fn => fn()`、`let t = performance.now(); raffleFrame = fn => fn(t += 1e5)`，整段抽籤就會同步跑完；測完記得換回原函式。**假時間戳必須遞增**：轉盤減速以時間計算，每幀傳同一個時間戳等於時間沒前進，轉盤永遠停不下來、遞迴到堆疊爆掉
+- **抽籤動畫一律以時間計算，不可寫成「每幀乘一次摩擦係數」**：教室電視常掉到 30fps 以下，以幀計算的轉盤會轉上兩倍久（2026-10-28 前的轉盤在 30fps 要 12 秒以上）。轉盤停下約 3 秒由 `RAFFLE_WHEEL_FRICTION` 決定，拉霸看 `RAFFLE_SLOT_SPIN_MS`
 
 ## 工作約定
 - 任何 Agent、任何電腦：**開工先讀 `handoff.md`，收工必更新 `handoff.md`**
