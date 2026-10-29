@@ -217,9 +217,11 @@
                 
                 <div id="mobile-login-form-container">
                     <form id="mobile-login-form" onsubmit="return false;">
+                        <!-- 系統只有一組共用密碼；補個固定帳號讓 iPhone 鑰匙圈／Android 密碼管理員能存下並以 Face ID 自動填入 -->
+                        <input type="text" name="username" autocomplete="username" value="teacher" hidden readonly tabindex="-1" aria-hidden="true">
                         <div class="form-group">
                             <label for="mobile-password"><i class="fa-solid fa-lock"></i> 管理密碼</label>
-                            <input type="password" id="mobile-password" placeholder="請輸入密碼" required autocomplete="current-password">
+                            <input type="password" id="mobile-password" name="password" placeholder="請輸入密碼" required autocomplete="current-password">
                         </div>
                         
                         <div id="login-error-msg" class="alert alert-danger hidden">
